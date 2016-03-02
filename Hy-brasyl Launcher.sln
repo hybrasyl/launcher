@@ -5,6 +5,8 @@ VisualStudioVersion = 14.0.24720.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher v2", "Launcher v2\Launcher v2.csproj", "{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Hy-brasyl Launcher", "launcher\Hy-brasyl Launcher.csproj", "{BA14F579-CADB-40B3-B30B-19D3CE00DC43}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{BA14F579-CADB-40B3-B30B-19D3CE00DC43}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{BA14F579-CADB-40B3-B30B-19D3CE00DC43}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{BA14F579-CADB-40B3-B30B-19D3CE00DC43}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{BA14F579-CADB-40B3-B30B-19D3CE00DC43}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
