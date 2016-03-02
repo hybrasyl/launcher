@@ -107,7 +107,7 @@ namespace Launcher.ViewModels
         {
             get
             {
-                return Visibility.Visible;
+                return Visibility.Collapsed; //for later use.
             }
         }
 
