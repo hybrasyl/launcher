@@ -11,7 +11,7 @@ namespace Launcher
     /// <summary>
     /// Interaction logic for MainWindow.xaml
     /// </summary>
-    public partial class MainWindow : Window, Interfaces.IMainView
+    public partial class MainWindow : Window
     {
         public Frame Frame
         {

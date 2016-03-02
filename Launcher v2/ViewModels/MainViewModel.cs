@@ -8,8 +8,6 @@ using System.Linq;
 using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -28,7 +26,7 @@ namespace Launcher.ViewModels
         {
             get
             {
-                if(_selectedServer.Key == null)
+                if (_selectedServer.Key == null)
                 {
                     SelectedServer = ServerList.Where(o => o.Key == _config.AppSettings.Settings["Server"].Value).FirstOrDefault();
                     CheckServer();
@@ -48,6 +46,7 @@ namespace Launcher.ViewModels
                 OnPropertyChanged("SelectedServer");
             }
         }
+
         public string ServerStatus
         {
             get
@@ -70,7 +69,6 @@ namespace Launcher.ViewModels
             }
         }
 
-
         public Brush ServerStatusColor
         {
             get
@@ -82,6 +80,7 @@ namespace Launcher.ViewModels
                 return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
             }
         }
+
         public string NotifyHeader
         {
             get
@@ -90,9 +89,9 @@ namespace Launcher.ViewModels
             }
             set
             {
-
             }
         }
+
         public string NotifyContent
         {
             get
@@ -101,7 +100,6 @@ namespace Launcher.ViewModels
             }
             set
             {
-
             }
         }
 
@@ -125,7 +123,6 @@ namespace Launcher.ViewModels
             ServerList.Add("Hybrasyl Staging", new KeyValuePair<string, int>(Dns.GetHostAddresses("staging.hybrasyl.com")[0].ToString(), 2610));
             ServerList.Add("localhost", new KeyValuePair<string, int>("127.0.0.1", 2610));
             OnPropertyChanged("ServerList");
-            
         }
 
         public RelayCommand PlayCommand
@@ -221,14 +218,12 @@ namespace Launcher.ViewModels
             }
         }
 
-
         private async void CheckServer()
         {
-           await Task.Run(async () =>
-           {
-               ServerStatus = await Connect();
-           });
-            
+            await Task.Run(async () =>
+            {
+                ServerStatus = await Connect();
+            });
         }
 
         private async Task<string> Connect()
@@ -237,33 +232,46 @@ namespace Launcher.ViewModels
             {
                 using (TcpClient tcp = new TcpClient())
                 {
-                    IAsyncResult ar = tcp.BeginConnect(HostName, Port, null, null);
                     try
                     {
-                        if (!ar.AsyncWaitHandle.WaitOne(1000, false))
+                        IAsyncResult ar = tcp.BeginConnect(HostName, Port, null, null);
+                        if (!ar.AsyncWaitHandle.WaitOne(1000, true))
                         {
-                            tcp.EndConnect(ar);
+                            //tcp.EndConnect(ar);
                             tcp.Close();
                             throw new SocketException();
                         }
                         tcp.EndConnect(ar);
+
+                        await Task.Delay(100);
+                        return "Online";
                     }
-                    finally
+                    catch (ObjectDisposedException ex)
                     {
+                        return "Offline";
                     }
-                    await Task.Delay(100);
-                    return "Online";
+                    catch (SocketException ex)
+                    {
+                        if (ex.SocketErrorCode == SocketError.ConnectionRefused || ex.SocketErrorCode == SocketError.TimedOut || ex.SocketErrorCode == SocketError.NotConnected)
+                        {
+                            return "Offline";
+                        }
+                    }
                 }
             }
             catch (SocketException ex)
             {
-                if (ex.SocketErrorCode == SocketError.ConnectionRefused || ex.SocketErrorCode == SocketError.TimedOut)
+                if (ex.SocketErrorCode == SocketError.ConnectionRefused || ex.SocketErrorCode == SocketError.TimedOut || ex.SocketErrorCode == SocketError.NotConnected)
                 {
                     return "Offline";
                 }
             }
+            catch (ObjectDisposedException ex)
+            {
+                return "Offline";
+            }
+
             return "Unknown";
         }
-        
     }
 }
