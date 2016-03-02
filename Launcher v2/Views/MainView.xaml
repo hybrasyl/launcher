@@ -1,0 +1,51 @@
+﻿<Page x:Class="Launcher.Views.MainView"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Launcher.Views"
+      xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="600"
+      Title="MainView">
+
+    <DockPanel LastChildFill="True">
+        <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5">
+            <UniformGrid Rows="1">
+                <WrapPanel>
+                    <Button Content="Settings" Style="{StaticResource AppButtonStyle}" HorizontalAlignment="Left" Padding="5" Command="{Binding SettingsCommand}" />
+                </WrapPanel>
+                <WrapPanel HorizontalAlignment="Right">
+                    <Label Content="{Binding SelectedServer.Key}" Foreground="White" HorizontalAlignment="Right"/>
+                    <Label Content=":" HorizontalAlignment="Right" Foreground="White"/>
+                    <Label Content="{Binding ServerStatus}" Foreground="{Binding ServerStatusColor}" HorizontalAlignment="Right"/>
+                </WrapPanel>
+            </UniformGrid>
+            <Expander Style="{DynamicResource MainExpander}" Visibility="{Binding NotifyVisibility}">
+                <Expander.Header>
+                    <TextBlock Text="{Binding NotifyHeader}" Foreground="#FFFFCC66" FontWeight="Bold" FontSize="16"/>
+                </Expander.Header>
+                <TextBlock Text="{Binding NotifyContent}" Foreground="#FFFFCC66" TextWrapping="Wrap" Margin="50,5,0,5"/>
+            </Expander>
+        </StackPanel>
+        <StackPanel DockPanel.Dock="Bottom" Height="50">
+            <UniformGrid Columns="2" Rows="1" Margin="0,5,0,0">
+                <WrapPanel VerticalAlignment="Center">
+                    <Label Content="Server:" Foreground="WhiteSmoke" VerticalAlignment="Center"/>
+                    <ComboBox Style="{StaticResource TransparentComboStyle}" MinWidth="225" Margin="5,5,0,5" ItemsSource="{Binding ServerList}" SelectedItem="{Binding SelectedServer, Mode=TwoWay}" DisplayMemberPath="Key">
+                        <i:Interaction.Triggers>
+                            <i:EventTrigger EventName="SelectionChanged">
+                                <i:InvokeCommandAction Command="{Binding SelectionChangedCommand}"/>
+                            </i:EventTrigger>
+                        </i:Interaction.Triggers>
+                    </ComboBox>
+                </WrapPanel>
+                <Button Style="{StaticResource PlayButtonStyle}" Width="100" HorizontalAlignment="Right" Margin="0,0,0,0" Height="45" Content="Play" FontSize="18" FontWeight="Bold" Command="{Binding PlayCommand}"/>
+            </UniformGrid>
+        </StackPanel>
+        <Frame x:Name="newsFrame" Background="#FF19191A" NavigationUIVisibility="Hidden" Content="{Binding NewsPage}">
+
+        </Frame>
+
+    </DockPanel>
+</Page>
