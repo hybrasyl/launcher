@@ -1,0 +1,27 @@
+﻿<Page x:Class="Launcher.Views.Settings"
+      xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+      xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+      xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+      xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+      xmlns:local="clr-namespace:Launcher.Views"
+      mc:Ignorable="d" 
+      d:DesignHeight="500" d:DesignWidth="600"
+      Title="Settings">
+
+    <DockPanel>
+        <WrapPanel DockPanel.Dock="Top">
+            <Button Style="{StaticResource AppButtonStyle}" Content="ç" FontFamily="Wingdings" FontSize="18" Foreground="WhiteSmoke" Padding="5" Margin="5,0,5,0" Command="{Binding BackCommand}" />
+            <Label Content="Settings" FontSize="16" Foreground="WhiteSmoke" FontWeight="Bold" VerticalAlignment="Center"/>
+        </WrapPanel>
+        <StackPanel Margin="0,3,0,0">
+            <Label Content="Path" Foreground="WhiteSmoke"/>
+            <DockPanel LastChildFill="True">
+                <Button Style="{StaticResource AppButtonStyle}" Content="•••" Padding="1" MinWidth="25" DockPanel.Dock="Right" Command="{Binding PathCommand}" VerticalContentAlignment="Center"/>
+                <TextBox BorderThickness="1" BorderBrush="{DynamicResource ActiveWindowBorderBrush}" Background="#FF19191A" x:Name="txtPath" Margin="0,0,3,0" Text="{Binding Path}" IsReadOnly="True" Foreground="WhiteSmoke"/>
+            </DockPanel>
+            <Label Content="Options" Foreground="WhiteSmoke"/>
+            <CheckBox x:Name="chkMulti" Content="Allow multiple clients" Foreground="WhiteSmoke" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding MultiInstance, Mode=TwoWay}"/>
+            <CheckBox x:Name="chkIntro" Content="Skip intro video" Foreground="WhiteSmoke" Style="{StaticResource CheckBoxStyle}" IsChecked="{Binding SkipIntro, Mode=TwoWay}"/>
+        </StackPanel>
+    </DockPanel>
+</Page>
