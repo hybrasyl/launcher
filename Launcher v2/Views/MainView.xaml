@@ -40,7 +40,7 @@
                         </i:Interaction.Triggers>
                     </ComboBox>
                 </WrapPanel>
-                <Button Style="{StaticResource PlayButtonStyle}" Width="100" HorizontalAlignment="Right" Margin="0,0,0,0" Height="45" Content="Play" FontSize="18" FontWeight="Bold" Command="{Binding PlayCommand}"/>
+                <Button Style="{StaticResource PlayButtonStyle}" Width="100" HorizontalAlignment="Right" Margin="0,0,0,0" Height="45" Content="Play" FontSize="18" FontWeight="Bold" Command="{Binding PlayCommand}" IsEnabled="{Binding LaunchEnabled}"/>
             </UniformGrid>
         </StackPanel>
         <Frame x:Name="newsFrame" Background="#FF19191A" NavigationUIVisibility="Hidden" Content="{Binding NewsPage}">

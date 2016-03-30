@@ -17,9 +17,11 @@ namespace Launcher.ViewModels
 {
     public class MainViewModel : NotifyPropertyChanged
     {
+        public Frame F { get; set; }
         private string _serverStatus;
         private Configuration _config;
         private KeyValuePair<string, KeyValuePair<string, int>> _selectedServer;
+
         public Dictionary<string, KeyValuePair<string, int>> ServerList { get; set; }
 
         public KeyValuePair<string, KeyValuePair<string, int>> SelectedServer
@@ -28,7 +30,7 @@ namespace Launcher.ViewModels
             {
                 if (_selectedServer.Key == null)
                 {
-                    SelectedServer = ServerList.Where(o => o.Key == _config.AppSettings.Settings["Server"].Value).FirstOrDefault();
+                    SelectedServer = ServerList.FirstOrDefault(o => o.Key == _config.AppSettings.Settings["Server"].Value);
                     CheckServer();
                 }
 
@@ -61,13 +63,7 @@ namespace Launcher.ViewModels
             }
         }
 
-        public Page NewsPage
-        {
-            get
-            {
-                return new News();
-            }
-        }
+        public Page NewsPage => new News();
 
         public Brush ServerStatusColor
         {
@@ -89,6 +85,7 @@ namespace Launcher.ViewModels
             }
             set
             {
+                _serverStatus = value;
             }
         }
 
@@ -100,6 +97,7 @@ namespace Launcher.ViewModels
             }
             set
             {
+                _serverStatus = value;
             }
         }
 
@@ -111,17 +109,30 @@ namespace Launcher.ViewModels
             }
         }
 
+        public bool LaunchEnabled { get; set; }
+
         public string HostName { get; set; }
         public int Port { get; set; }
 
         public MainViewModel(Frame f)
         {
+            F = f;
             //f.Navigate(new News());
             _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            ServerList = new Dictionary<string, KeyValuePair<string, int>>();
-            ServerList.Add("Hybrasyl Production", new KeyValuePair<string, int>(Dns.GetHostAddresses("production.hybrasyl.com")[0].ToString(), 2610));
-            ServerList.Add("Hybrasyl Staging", new KeyValuePair<string, int>(Dns.GetHostAddresses("staging.hybrasyl.com")[0].ToString(), 2610));
-            ServerList.Add("localhost", new KeyValuePair<string, int>("127.0.0.1", 2610));
+            ServerList = new Dictionary<string, KeyValuePair<string, int>>
+            {
+                {
+                    "Hybrasyl Production",
+                    new KeyValuePair<string, int>(Dns.GetHostAddresses("production.hybrasyl.com")[0].ToString(), 2610)
+                },
+                {
+                    "Hybrasyl Staging",
+                    new KeyValuePair<string, int>(Dns.GetHostAddresses("staging.hybrasyl.com")[0].ToString(), 2610)
+                },
+                {"localhost", new KeyValuePair<string, int>("127.0.0.1", 2610)}
+            };
+            LaunchEnabled = true;
+            OnPropertyChanged("LaunchEnabled");
             OnPropertyChanged("ServerList");
         }
 
@@ -135,6 +146,8 @@ namespace Launcher.ViewModels
 
         private void Launch()
         {
+            _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
             string path = _config.AppSettings.Settings["Path"].Value;
 
             if (!File.Exists(path))
@@ -181,13 +194,18 @@ namespace Launcher.ViewModels
 
                 if (_config.AppSettings.Settings["MultiInstance"].Value == "true")
                 {
-                    stream.Position = 0x5911B9L; // multi-instance
+                    stream.Position = 0x5912B9L; // multi-instance
                     stream.WriteByte(0xEB);
                 }
+                else
+                {
+                    LaunchEnabled = false;
+                    OnPropertyChanged("LaunchEnabled");
+                }
 
-                Kernel32.ResumeThread(information.ThreadHandle);
+                
             }
-
+            Kernel32.ResumeThread(information.ThreadHandle);
             var process = Process.GetProcessById(information.ProcessId);
             process.WaitForInputIdle();
 
@@ -207,7 +225,7 @@ namespace Launcher.ViewModels
         private void Settings()
         {
             //i hate this. there's better ways to do this.
-            ((MainWindow)App.Current.MainWindow).frame.Navigate(new Settings(this));
+            ((MainWindow)Application.Current.MainWindow).frame.Navigate(new Settings(this));
         }
 
         public RelayCommand SelectionChangedCommand
@@ -246,7 +264,7 @@ namespace Launcher.ViewModels
                         await Task.Delay(100);
                         return "Online";
                     }
-                    catch (ObjectDisposedException ex)
+                    catch (ObjectDisposedException)
                     {
                         return "Offline";
                     }
@@ -266,7 +284,7 @@ namespace Launcher.ViewModels
                     return "Offline";
                 }
             }
-            catch (ObjectDisposedException ex)
+            catch (ObjectDisposedException)
             {
                 return "Offline";
             }
