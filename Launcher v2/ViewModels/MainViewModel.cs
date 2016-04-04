@@ -5,13 +5,14 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
+using Binarysharp.MemoryManagement;
 
 namespace Launcher.ViewModels
 {
@@ -123,11 +124,11 @@ namespace Launcher.ViewModels
             {
                 {
                     "Hybrasyl Production",
-                    new KeyValuePair<string, int>(Dns.GetHostAddresses("production.hybrasyl.com")[0].ToString(), 2610)
+                    new KeyValuePair<string, int>("prd.hyb.onl", 2610)
                 },
                 {
                     "Hybrasyl Staging",
-                    new KeyValuePair<string, int>(Dns.GetHostAddresses("staging.hybrasyl.com")[0].ToString(), 2610)
+                    new KeyValuePair<string, int>("stg.hyb.onl", 2610)
                 },
                 {"localhost", new KeyValuePair<string, int>("127.0.0.1", 2610)}
             };
@@ -162,12 +163,15 @@ namespace Launcher.ViewModels
             Kernel32.CreateProcess(path, null, IntPtr.Zero, IntPtr.Zero, false, ProcessCreationFlags.Suspended,
                 IntPtr.Zero, null, ref startupInfo, out information);
 
+
             using (ProcessMemoryStream stream = new ProcessMemoryStream(information.ProcessId,
                 ProcessAccess.VmWrite | ProcessAccess.VmRead | ProcessAccess.VmOperation))
             {
+                
+
                 if (_config.AppSettings.Settings["SkipIntro"].Value == "true")
                 {
-                    stream.Position = 0x42F495L; // intro
+                    stream.Position = 0x42E625L; // intro
                     stream.WriteByte(0x90);
                     stream.WriteByte(0x90);
                     stream.WriteByte(0x90);
@@ -176,25 +180,25 @@ namespace Launcher.ViewModels
                     stream.WriteByte(0x90);
                 }
 
-                stream.Position = 0x4341FAL; // ip
-                IPAddress addr = Dns.GetHostAddresses(HostName)[0];
-                var serverBytes = addr.GetAddressBytes();
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[3]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[2]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[1]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[0]);
+                //stream.Position = 0x4333C2L; // ip
+                //IPAddress addr = Dns.GetHostAddresses(HostName)[0];
+                //var serverBytes = addr.GetAddressBytes();
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[3]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[2]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[1]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[0]);
 
-                stream.Position = 0x434224L; // port
-                stream.WriteByte((byte)(Port % 256));
-                stream.WriteByte((byte)(Port / 256));
+                //stream.Position = 0x4333F5L; // port
+                //stream.WriteByte((byte)(Port % 256));
+                //stream.WriteByte((byte)(Port / 256));
 
                 if (_config.AppSettings.Settings["MultiInstance"].Value == "true")
                 {
-                    stream.Position = 0x5912B9L; // multi-instance
+                    stream.Position = 0x57A7D9L; // multi-instance
                     stream.WriteByte(0xEB);
                 }
                 else
@@ -202,14 +206,37 @@ namespace Launcher.ViewModels
                     LaunchEnabled = false;
                     OnPropertyChanged("LaunchEnabled");
                 }
-
-                
             }
             Kernel32.ResumeThread(information.ThreadHandle);
             var process = Process.GetProcessById(information.ProcessId);
+            Kernel32.SuspendThread(information.ThreadHandle);
+            var sharp = new MemorySharp(process);
+            var hostBytes = Encoding.UTF8.GetBytes(HostName);
+            byte[] endBytes = new byte[12];
+            if (hostBytes.Length != 12)
+            {
+                for (var i = 0; i < hostBytes.Length; i++)
+                {
+                    endBytes[i] = hostBytes[i];
+                }
+            }
+            else
+            {
+                endBytes = hostBytes;
+            }
+
+            sharp[(IntPtr) 0x2707A8].ChangeProtection(12, Binarysharp.MemoryManagement.Native.MemoryProtectionFlags.ExecuteReadWrite, false);
+
+            for (var i = 0; i < 12; i++)
+            {
+                sharp[(IntPtr)0x2707A8].Write(i, (char)endBytes[i]);
+            }
+            Kernel32.ResumeThread(information.ThreadHandle);
             process.WaitForInputIdle();
 
-            while (process.MainWindowHandle == IntPtr.Zero) ;
+            while (process.MainWindowHandle == IntPtr.Zero)
+            {
+            }
 
             User32.SetWindowText(process.MainWindowHandle, "DarkAges : Hybrasyl");
         }
@@ -252,7 +279,7 @@ namespace Launcher.ViewModels
                 {
                     try
                     {
-                        IAsyncResult ar = tcp.BeginConnect(HostName, Port, null, null);
+                        var ar = tcp.BeginConnect(HostName, Port, null, null);
                         if (!ar.AsyncWaitHandle.WaitOne(1000, true))
                         {
                             //tcp.EndConnect(ar);

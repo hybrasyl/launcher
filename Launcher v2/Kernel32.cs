@@ -20,6 +20,8 @@ namespace Launcher
         [DllImport("kernel32.dll")]
         public static extern int ResumeThread(IntPtr hThread);
         [DllImport("kernel32.dll")]
+        public static extern uint SuspendThread(IntPtr hThread);
+        [DllImport("kernel32.dll")]
         public static extern WaitEventResult WaitForSingleObject(IntPtr hObject, int timeout);
         [DllImport("kernel32.dll")]
         public static extern bool WriteProcessMemory(IntPtr hProcess, IntPtr baseAddress, IntPtr buffer, int count, out int bytesWritten);
