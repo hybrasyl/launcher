@@ -97,6 +97,15 @@ namespace Launcher
         {
             throw new NotSupportedException("Cannot set the length for this stream.");
         }
+
+        public void WriteArray(byte[] buffer, int offset, int count, bool isProtected = false)
+        {
+            if (isProtected)
+            {
+                
+            }
+        }
+
         public override void Write(byte[] buffer, int offset, int count)
         {
             if (this.disposed)
@@ -107,6 +116,9 @@ namespace Launcher
             {
                 throw new InvalidOperationException("Process is not open.");
             }
+            uint oldProtection = 0;
+            Kernel32.VirtualProtectEx(this.hProcess, (IntPtr)this.Position, (UIntPtr)12, (uint)Protection.PAGE_READWRITE, out oldProtection);
+
             IntPtr destination = Marshal.AllocHGlobal(count);
             if (destination == IntPtr.Zero)
             {
@@ -117,6 +129,8 @@ namespace Launcher
             Kernel32.WriteProcessMemory(this.hProcess, (IntPtr)this.Position, destination, count, out bytesWritten);
             this.Position += bytesWritten;
             Marshal.FreeHGlobal(destination);
+            uint dummy = 0;
+            Kernel32.VirtualProtectEx(this.hProcess, (IntPtr)this.Position, (UIntPtr)12, oldProtection, out dummy);
         }
         public override void WriteByte(byte value)
         {

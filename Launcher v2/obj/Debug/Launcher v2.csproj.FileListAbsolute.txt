@@ -35,10 +35,7 @@ C:\Users\Mike\Source\Repos\Launcher v2\bin\Debug\Launcher v2.exe.lastcodeanalysi
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\Launcher v2.exe.config
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\Launcher v2.exe
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\Launcher v2.pdb
-C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\Fasm.NET.dll
-C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\MemorySharp.dll
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\System.Windows.Interactivity.dll
-C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\MemorySharp.xml
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\de\System.Windows.Interactivity.resources.dll
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\en\System.Windows.Interactivity.resources.dll
 C:\Users\Mike\Source\Repos\launcher\Launcher v2\bin\Debug\es\System.Windows.Interactivity.resources.dll

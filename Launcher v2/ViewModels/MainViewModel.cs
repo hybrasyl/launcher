@@ -12,7 +12,6 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media;
-using Binarysharp.MemoryManagement;
 
 namespace Launcher.ViewModels
 {
@@ -70,9 +69,15 @@ namespace Launcher.ViewModels
         {
             get
             {
-                if (ServerStatus == "Online") return Brushes.Lime;
-                if (ServerStatus == "Offline") return Brushes.Red;
-                if (ServerStatus == "Unknown") return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
+                switch (ServerStatus)
+                {
+                    case "Online":
+                        return Brushes.Lime;
+                    case "Offline":
+                        return Brushes.Red;
+                    case "Unknown":
+                        return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
+                }
                 ServerStatus = "Unknown";
                 return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
             }
@@ -196,6 +201,23 @@ namespace Launcher.ViewModels
                 //stream.WriteByte((byte)(Port % 256));
                 //stream.WriteByte((byte)(Port / 256));
 
+                var hostBytes = Encoding.UTF8.GetBytes(HostName);
+                byte[] endBytes = new byte[12];
+                if (hostBytes.Length != 12)
+                {
+                    for (var i = 0; i < hostBytes.Length; i++)
+                    {
+                        endBytes[i] = hostBytes[i];
+                    }
+                }
+                else
+                {
+                    endBytes = hostBytes;
+                }
+
+                stream.Position = 0x6707A8L;
+                stream.Write(endBytes, 0, 12);
+
                 if (_config.AppSettings.Settings["MultiInstance"].Value == "true")
                 {
                     stream.Position = 0x57A7D9L; // multi-instance
@@ -210,33 +232,18 @@ namespace Launcher.ViewModels
             Kernel32.ResumeThread(information.ThreadHandle);
             var process = Process.GetProcessById(information.ProcessId);
             Kernel32.SuspendThread(information.ThreadHandle);
-            var sharp = new MemorySharp(process);
-            var hostBytes = Encoding.UTF8.GetBytes(HostName);
-            byte[] endBytes = new byte[12];
-            if (hostBytes.Length != 12)
-            {
-                for (var i = 0; i < hostBytes.Length; i++)
-                {
-                    endBytes[i] = hostBytes[i];
-                }
-            }
-            else
-            {
-                endBytes = hostBytes;
-            }
-
-            sharp[(IntPtr) 0x2707A8].ChangeProtection(12, Binarysharp.MemoryManagement.Native.MemoryProtectionFlags.ExecuteReadWrite, false);
-
-            for (var i = 0; i < 12; i++)
-            {
-                sharp[(IntPtr)0x2707A8].Write(i, (char)endBytes[i]);
-            }
+            
+            //uint oldProtect = 0;
+            //int outWritten = 0;
+            //Kernel32.VirtualProtectEx(process.Handle, (IntPtr)0x2707A8, (UIntPtr)12, (uint)Protection.PAGE_READWRITE, out oldProtect);
+            //IntPtr addrPtr = Marshal.AllocHGlobal(endBytes.Length);
+            //Marshal.Copy(endBytes, 0, addrPtr, endBytes.Length);
+            //Kernel32.WriteProcessMemory(process.Handle, (IntPtr)0x2707A8, addrPtr, 12, out outWritten);
+            //Marshal.FreeHGlobal(addrPtr);
+            
+             
             Kernel32.ResumeThread(information.ThreadHandle);
             process.WaitForInputIdle();
-
-            while (process.MainWindowHandle == IntPtr.Zero)
-            {
-            }
 
             User32.SetWindowText(process.MainWindowHandle, "DarkAges : Hybrasyl");
         }
