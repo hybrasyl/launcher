@@ -1,6 +1,0 @@
-C:\Users\Mike\Source\Repos\launcher\bin\Release\Hy-brasyl Launcher.exe.config
-C:\Users\Mike\Source\Repos\launcher\bin\Release\Hy-brasyl Launcher.exe
-C:\Users\Mike\Source\Repos\launcher\obj\Release\HybrasylLauncher.MainForm.resources
-C:\Users\Mike\Source\Repos\launcher\obj\Release\HybrasylLauncher.Properties.Resources.resources
-C:\Users\Mike\Source\Repos\launcher\obj\Release\Hy-brasyl Launcher.csproj.GenerateResource.Cache
-C:\Users\Mike\Source\Repos\launcher\obj\Release\Hy-brasyl Launcher.exe
