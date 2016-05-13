@@ -5,9 +5,9 @@ using System.Configuration;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Net;
 using System.Net.Sockets;
 using System.Runtime.InteropServices;
+using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
@@ -17,9 +17,11 @@ namespace Launcher.ViewModels
 {
     public class MainViewModel : NotifyPropertyChanged
     {
+        public Frame F { get; set; }
         private string _serverStatus;
         private Configuration _config;
         private KeyValuePair<string, KeyValuePair<string, int>> _selectedServer;
+
         public Dictionary<string, KeyValuePair<string, int>> ServerList { get; set; }
 
         public KeyValuePair<string, KeyValuePair<string, int>> SelectedServer
@@ -28,7 +30,7 @@ namespace Launcher.ViewModels
             {
                 if (_selectedServer.Key == null)
                 {
-                    SelectedServer = ServerList.Where(o => o.Key == _config.AppSettings.Settings["Server"].Value).FirstOrDefault();
+                    SelectedServer = ServerList.FirstOrDefault(o => o.Key == _config.AppSettings.Settings["Server"].Value);
                     CheckServer();
                 }
 
@@ -61,21 +63,21 @@ namespace Launcher.ViewModels
             }
         }
 
-        public Page NewsPage
-        {
-            get
-            {
-                return new News();
-            }
-        }
+        public Page NewsPage => new News();
 
         public Brush ServerStatusColor
         {
             get
             {
-                if (ServerStatus == "Online") return Brushes.Lime;
-                if (ServerStatus == "Offline") return Brushes.Red;
-                if (ServerStatus == "Unknown") return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
+                switch (ServerStatus)
+                {
+                    case "Online":
+                        return Brushes.Lime;
+                    case "Offline":
+                        return Brushes.Red;
+                    case "Unknown":
+                        return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
+                }
                 ServerStatus = "Unknown";
                 return new SolidColorBrush(Color.FromArgb(0XFF, 0xFF, 0xCC, 0x66));
             }
@@ -89,6 +91,7 @@ namespace Launcher.ViewModels
             }
             set
             {
+                _serverStatus = value;
             }
         }
 
@@ -100,6 +103,7 @@ namespace Launcher.ViewModels
             }
             set
             {
+                _serverStatus = value;
             }
         }
 
@@ -111,17 +115,30 @@ namespace Launcher.ViewModels
             }
         }
 
+        public bool LaunchEnabled { get; set; }
+
         public string HostName { get; set; }
         public int Port { get; set; }
 
         public MainViewModel(Frame f)
         {
+            F = f;
             //f.Navigate(new News());
             _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
-            ServerList = new Dictionary<string, KeyValuePair<string, int>>();
-            ServerList.Add("Hybrasyl Production", new KeyValuePair<string, int>(Dns.GetHostAddresses("production.hybrasyl.com")[0].ToString(), 2610));
-            ServerList.Add("Hybrasyl Staging", new KeyValuePair<string, int>(Dns.GetHostAddresses("staging.hybrasyl.com")[0].ToString(), 2610));
-            ServerList.Add("localhost", new KeyValuePair<string, int>("127.0.0.1", 2610));
+            ServerList = new Dictionary<string, KeyValuePair<string, int>>
+            {
+                {
+                    "Hybrasyl Production",
+                    new KeyValuePair<string, int>("prd.hyb.onl", 2610)
+                },
+                {
+                    "Hybrasyl Staging",
+                    new KeyValuePair<string, int>("stg.hyb.onl", 2610)
+                },
+                {"localhost", new KeyValuePair<string, int>("127.0.0.1", 2610)}
+            };
+            LaunchEnabled = true;
+            OnPropertyChanged("LaunchEnabled");
             OnPropertyChanged("ServerList");
         }
 
@@ -135,6 +152,8 @@ namespace Launcher.ViewModels
 
         private void Launch()
         {
+            _config = ConfigurationManager.OpenExeConfiguration(ConfigurationUserLevel.None);
+
             string path = _config.AppSettings.Settings["Path"].Value;
 
             if (!File.Exists(path))
@@ -149,12 +168,15 @@ namespace Launcher.ViewModels
             Kernel32.CreateProcess(path, null, IntPtr.Zero, IntPtr.Zero, false, ProcessCreationFlags.Suspended,
                 IntPtr.Zero, null, ref startupInfo, out information);
 
+
             using (ProcessMemoryStream stream = new ProcessMemoryStream(information.ProcessId,
                 ProcessAccess.VmWrite | ProcessAccess.VmRead | ProcessAccess.VmOperation))
             {
+                
+
                 if (_config.AppSettings.Settings["SkipIntro"].Value == "true")
                 {
-                    stream.Position = 0x42F495L; // intro
+                    stream.Position = 0x42E625L; // intro
                     stream.WriteByte(0x90);
                     stream.WriteByte(0x90);
                     stream.WriteByte(0x90);
@@ -163,35 +185,65 @@ namespace Launcher.ViewModels
                     stream.WriteByte(0x90);
                 }
 
-                stream.Position = 0x4341FAL; // ip
-                IPAddress addr = Dns.GetHostAddresses(HostName)[0];
-                var serverBytes = addr.GetAddressBytes();
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[3]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[2]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[1]);
-                stream.WriteByte(0x6A);
-                stream.WriteByte(serverBytes[0]);
+                //stream.Position = 0x4333C2L; // ip
+                //IPAddress addr = Dns.GetHostAddresses(HostName)[0];
+                //var serverBytes = addr.GetAddressBytes();
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[3]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[2]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[1]);
+                //stream.WriteByte(0x6A);
+                //stream.WriteByte(serverBytes[0]);
 
-                stream.Position = 0x434224L; // port
-                stream.WriteByte((byte)(Port % 256));
-                stream.WriteByte((byte)(Port / 256));
+                //stream.Position = 0x4333F5L; // port
+                //stream.WriteByte((byte)(Port % 256));
+                //stream.WriteByte((byte)(Port / 256));
+
+                var hostBytes = Encoding.UTF8.GetBytes(HostName);
+                byte[] endBytes = new byte[12];
+                if (hostBytes.Length != 12)
+                {
+                    for (var i = 0; i < hostBytes.Length; i++)
+                    {
+                        endBytes[i] = hostBytes[i];
+                    }
+                }
+                else
+                {
+                    endBytes = hostBytes;
+                }
+
+                stream.Position = 0x6707A8L;
+                stream.Write(endBytes, 0, 12);
 
                 if (_config.AppSettings.Settings["MultiInstance"].Value == "true")
                 {
-                    stream.Position = 0x5911B9L; // multi-instance
+                    stream.Position = 0x57A7D9L; // multi-instance
                     stream.WriteByte(0xEB);
                 }
-
-                Kernel32.ResumeThread(information.ThreadHandle);
+                else
+                {
+                    LaunchEnabled = false;
+                    OnPropertyChanged("LaunchEnabled");
+                }
             }
-
+            Kernel32.ResumeThread(information.ThreadHandle);
             var process = Process.GetProcessById(information.ProcessId);
+            Kernel32.SuspendThread(information.ThreadHandle);
+            
+            //uint oldProtect = 0;
+            //int outWritten = 0;
+            //Kernel32.VirtualProtectEx(process.Handle, (IntPtr)0x2707A8, (UIntPtr)12, (uint)Protection.PAGE_READWRITE, out oldProtect);
+            //IntPtr addrPtr = Marshal.AllocHGlobal(endBytes.Length);
+            //Marshal.Copy(endBytes, 0, addrPtr, endBytes.Length);
+            //Kernel32.WriteProcessMemory(process.Handle, (IntPtr)0x2707A8, addrPtr, 12, out outWritten);
+            //Marshal.FreeHGlobal(addrPtr);
+            
+             
+            Kernel32.ResumeThread(information.ThreadHandle);
             process.WaitForInputIdle();
-
-            while (process.MainWindowHandle == IntPtr.Zero) ;
 
             User32.SetWindowText(process.MainWindowHandle, "DarkAges : Hybrasyl");
         }
@@ -207,7 +259,7 @@ namespace Launcher.ViewModels
         private void Settings()
         {
             //i hate this. there's better ways to do this.
-            ((MainWindow)App.Current.MainWindow).frame.Navigate(new Settings(this));
+            ((MainWindow)Application.Current.MainWindow).frame.Navigate(new Settings(this));
         }
 
         public RelayCommand SelectionChangedCommand
@@ -234,7 +286,7 @@ namespace Launcher.ViewModels
                 {
                     try
                     {
-                        IAsyncResult ar = tcp.BeginConnect(HostName, Port, null, null);
+                        var ar = tcp.BeginConnect(HostName, Port, null, null);
                         if (!ar.AsyncWaitHandle.WaitOne(1000, true))
                         {
                             //tcp.EndConnect(ar);
@@ -246,7 +298,7 @@ namespace Launcher.ViewModels
                         await Task.Delay(100);
                         return "Online";
                     }
-                    catch (ObjectDisposedException ex)
+                    catch (ObjectDisposedException)
                     {
                         return "Offline";
                     }
@@ -266,7 +318,7 @@ namespace Launcher.ViewModels
                     return "Offline";
                 }
             }
-            catch (ObjectDisposedException ex)
+            catch (ObjectDisposedException)
             {
                 return "Offline";
             }
