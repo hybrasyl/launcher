@@ -1,3 +1,0 @@
-C:\Users\Mike\Source\Repos\launcher\LauncherSetup\bin\Debug\cab1.cab
-C:\Users\Mike\Source\Repos\launcher\LauncherSetup\bin\Debug\Hybrasyl Launcher Installer.msi
-C:\Users\Mike\Source\Repos\launcher\LauncherSetup\bin\Debug\Hybrasyl Launcher Installer.wixpdb

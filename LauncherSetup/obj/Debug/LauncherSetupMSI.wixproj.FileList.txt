@@ -1,7 +1,0 @@
-C:\Users\Mike\Source\Repos\launcher\LauncherSetup\bin\Debug\Hybrasyl Launcher Installer.msi
-C:\Users\Mike\Source\Repos\launcher\LauncherSetup\bin\Debug\Hybrasyl Launcher Installer.wixpdb
-obj\Debug\Product.wixobj
-obj\Debug\StandardUI.wixobj
-obj\Debug\LauncherSetupMSI.wixproj.BindContentsFileListnull.txt
-obj\Debug\LauncherSetupMSI.wixproj.BindOutputsFileListnull.txt
-obj\Debug\LauncherSetupMSI.wixproj.BindBuiltOutputsFileListnull.txt
