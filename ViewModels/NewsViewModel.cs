@@ -31,7 +31,7 @@ namespace Launcher.ViewModels
                 List<string> cleaned = new List<string>();
                 foreach(string s in items)
                 {
-                    if(s.Contains("<a href"))
+                    if(s.Contains("<a href") || s.Contains("<a target"))
                     {
                         string news = s.Substring(0, s.IndexOf("<a"));
                         string nourl = s.Substring(s.IndexOf("\">") + 2, s.IndexOf("</a>") - (s.IndexOf("\">") + 2));

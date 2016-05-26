@@ -4,12 +4,15 @@
       xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
       xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
       xmlns:local="clr-namespace:Launcher.Views"
+      xmlns:vm="clr-namespace:Launcher.ViewModels"
       xmlns:i="clr-namespace:System.Windows.Interactivity;assembly=System.Windows.Interactivity"
       mc:Ignorable="d" 
       d:DesignHeight="500" d:DesignWidth="600"
       Title="MainView">
-
-    <DockPanel LastChildFill="True">
+    <Page.Resources>
+        <vm:ViewModelLocator x:Key="ViewModelLocator"/>
+    </Page.Resources>
+    <DockPanel LastChildFill="True" DataContext="{Binding Source={StaticResource ViewModelLocator}, Path=MainViewModel}">
         <StackPanel DockPanel.Dock="Top" Margin="0,5,0,5">
             <UniformGrid Rows="1">
                 <WrapPanel>

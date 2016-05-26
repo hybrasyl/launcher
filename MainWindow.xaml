@@ -10,7 +10,8 @@
         SizeToContent="WidthAndHeight"
         Style="{StaticResource DarkWindow}"
         Title="Hybrasyl Launcher" Height="350" Width="525"
-        MinWidth="600" MinHeight="500" MaxWidth="600">
+        MinWidth="600" MinHeight="500" MaxWidth="600"
+        Icon="Resources/16822163.jpg">
     <Frame x:Name="frame" NavigationUIVisibility="Hidden">
         
     </Frame>

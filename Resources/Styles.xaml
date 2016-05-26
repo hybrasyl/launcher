@@ -24,6 +24,7 @@
     <Color x:Key="Gray8">#FFE0E0E0</Color>
     <Color x:Key="Gray9">#5EC9C9C9</Color>
     <Color x:Key="Gray10">#FFF7F7F7</Color>
+    <Color x:Key="Orange1">#FFFFCC66</Color>
 
     <SolidColorBrush x:Key="WhiteBrush" Color="{DynamicResource WhiteColor}" />
     <SolidColorBrush x:Key="BlackBrush" Color="{DynamicResource BlackColor}" />
@@ -50,6 +51,7 @@
 
     <SolidColorBrush x:Key="WindowBackgroundColorBrush" Color="{StaticResource WindowBackgroundColor}" />
     <SolidColorBrush x:Key="HighlightColorBrush" Color="{StaticResource HighlightColor}" />
+    <SolidColorBrush x:Key="Orange1ColorBrush" Color="{StaticResource Orange1}"/>
     <SolidColorBrush x:Key="BlueColorBrush" Color="{StaticResource BlueColor}" />
     <SolidColorBrush x:Key="ForegroundColorBrush" Color="{StaticResource ForegroundColor}" />
     <SolidColorBrush x:Key="ActiveWindowBorderBrush" />
@@ -1683,7 +1685,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
                             <Setter Property="Fill" TargetName="circle" Value="Transparent"/>
-                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource HighlightColorBrush}"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Orange1ColorBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
@@ -1734,7 +1736,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
                             <Setter Property="Fill" TargetName="circle" Value="Transparent"/>
-                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource HighlightColorBrush}"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Orange1ColorBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
@@ -1785,7 +1787,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
                             <Setter Property="Fill" TargetName="circle" Value="Transparent"/>
-                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource HighlightColorBrush}"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Orange1ColorBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
@@ -1836,7 +1838,7 @@
                         <Trigger Property="IsMouseOver" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>
                             <Setter Property="Fill" TargetName="circle" Value="Transparent"/>
-                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource HighlightColorBrush}"/>
+                            <Setter Property="Stroke" TargetName="arrow" Value="{StaticResource Orange1ColorBrush}"/>
                         </Trigger>
                         <Trigger Property="IsPressed" Value="true">
                             <Setter Property="Stroke" TargetName="circle" Value="Transparent"/>

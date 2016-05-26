@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Launcher.ViewModels
 {
-    class SettingsViewModel : NotifyPropertyChanged
+    public class SettingsViewModel : NotifyPropertyChanged
     {
         private OpenFileDialogVM _openFile;
         private MainViewModel _main;
@@ -121,7 +121,7 @@ namespace Launcher.ViewModels
 
         private void ReturnToMain()
         {
-            ((MainWindow)App.Current.MainWindow).frame.Navigate(new MainView(_main));
+            ((MainWindow)App.Current.MainWindow).frame.GoBack();
         }
 
         public SettingsViewModel(MainViewModel main)
