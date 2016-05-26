@@ -8,6 +8,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/infinite.gif")]
+[assembly: System.Windows.Resources.AssemblyAssociatedContentFileAttribute("resources/hyb.ico")]
 
 

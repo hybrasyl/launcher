@@ -60,7 +60,7 @@ namespace Launcher.Views {
                 return;
             }
             _contentLoaded = true;
-            System.Uri resourceLocater = new System.Uri("/Launcher v2;component/views/news.xaml", System.UriKind.Relative);
+            System.Uri resourceLocater = new System.Uri("/Hybrasyl Launcher;component/views/news.xaml", System.UriKind.Relative);
             
             #line 1 "..\..\..\Views\News.xaml"
             System.Windows.Application.LoadComponent(this, resourceLocater);

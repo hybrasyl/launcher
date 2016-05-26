@@ -87,7 +87,7 @@ namespace Launcher.ViewModels
         {
             get
             {
-                return "Test Service Alert";
+                return "Notice: Settings Bug";
             }
             set
             {
@@ -99,7 +99,7 @@ namespace Launcher.ViewModels
         {
             get
             {
-                return "Test alert Content.";
+                return "There is a known issue when selecting a server after modifying settings in the launcher. Please select a server prior to changing settings. We're working on a fix as fast as possible.";
             }
             set
             {
@@ -111,7 +111,7 @@ namespace Launcher.ViewModels
         {
             get
             {
-                return Visibility.Collapsed; //for later use.
+                return Visibility.Visible; //for later use.
             }
         }
 
@@ -158,16 +158,18 @@ namespace Launcher.ViewModels
 
             if (!File.Exists(path))
             {
-                MessageBox.Show("Launcher could not find Dark Ages located at: \r\n" + path, "File not found!", MessageBoxButton.OK, MessageBoxImage.Hand);
+                MessageBox.Show("Hybrasyl Launcher could not find Dark Ages located at: \r\n" + path, "File not found!", MessageBoxButton.OK, MessageBoxImage.Hand);
                 return;
             }
 
             ProcessInformation information;
             StartupInfo startupInfo = new StartupInfo();
             startupInfo.Size = Marshal.SizeOf(startupInfo);
+
+            
+
             Kernel32.CreateProcess(path, null, IntPtr.Zero, IntPtr.Zero, false, ProcessCreationFlags.Suspended,
                 IntPtr.Zero, null, ref startupInfo, out information);
-
 
             using (ProcessMemoryStream stream = new ProcessMemoryStream(information.ProcessId,
                 ProcessAccess.VmWrite | ProcessAccess.VmRead | ProcessAccess.VmOperation))
@@ -185,6 +187,8 @@ namespace Launcher.ViewModels
                     stream.WriteByte(0x90);
                 }
 
+                #region Legacy IPAddress Code
+                /*Legacy IP Address code. do not remove.*/
                 //stream.Position = 0x4333C2L; // ip
                 //IPAddress addr = Dns.GetHostAddresses(HostName)[0];
                 //var serverBytes = addr.GetAddressBytes();
@@ -200,6 +204,8 @@ namespace Launcher.ViewModels
                 //stream.Position = 0x4333F5L; // port
                 //stream.WriteByte((byte)(Port % 256));
                 //stream.WriteByte((byte)(Port / 256));
+                /*End legacy IP Address code. do not remove.*/
+                #endregion
 
                 var hostBytes = Encoding.UTF8.GetBytes(HostName);
                 byte[] endBytes = new byte[12];
@@ -231,18 +237,6 @@ namespace Launcher.ViewModels
             }
             Kernel32.ResumeThread(information.ThreadHandle);
             var process = Process.GetProcessById(information.ProcessId);
-            Kernel32.SuspendThread(information.ThreadHandle);
-            
-            //uint oldProtect = 0;
-            //int outWritten = 0;
-            //Kernel32.VirtualProtectEx(process.Handle, (IntPtr)0x2707A8, (UIntPtr)12, (uint)Protection.PAGE_READWRITE, out oldProtect);
-            //IntPtr addrPtr = Marshal.AllocHGlobal(endBytes.Length);
-            //Marshal.Copy(endBytes, 0, addrPtr, endBytes.Length);
-            //Kernel32.WriteProcessMemory(process.Handle, (IntPtr)0x2707A8, addrPtr, 12, out outWritten);
-            //Marshal.FreeHGlobal(addrPtr);
-            
-             
-            Kernel32.ResumeThread(information.ThreadHandle);
             process.WaitForInputIdle();
 
             User32.SetWindowText(process.MainWindowHandle, "DarkAges : Hybrasyl");
