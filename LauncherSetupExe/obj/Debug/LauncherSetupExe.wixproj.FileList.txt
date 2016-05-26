@@ -1,0 +1,6 @@
+obj\Debug\Bundle.wixobj
+C:\Users\Mike\Source\Repos\launcher\LauncherSetupExe\bin\Debug\LauncherSetupExe.exe
+C:\Users\Mike\Source\Repos\launcher\LauncherSetupExe\bin\Debug\LauncherSetupExe.wixpdb
+obj\Debug\LauncherSetupExe.wixproj.BindContentsFileList.txt
+obj\Debug\LauncherSetupExe.wixproj.BindOutputsFileList.txt
+obj\Debug\LauncherSetupExe.wixproj.BindBuiltOutputsFileList.txt

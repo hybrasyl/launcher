@@ -7,8 +7,8 @@
 		<Package InstallerVersion="200" Compressed="yes" InstallScope="perMachine" />
 
 		<MajorUpgrade DowngradeErrorMessage="A newer version of [ProductName] is already installed." />
-		<MediaTemplate />
-
+    
+    <Media Id="1" Cabinet="cab1.cab" EmbedCab="yes" />
 		<Feature Id="ProductFeature" Title="LauncherSetup" Level="1">
 			<ComponentGroupRef Id="ProductComponents" />
       <ComponentRef Id="ApplicationShortcutDesktop"/>

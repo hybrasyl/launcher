@@ -5,7 +5,7 @@ VisualStudioVersion = 14.0.25123.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher v2\Launcher.csproj", "{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}"
 EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LauncherSetup", "LauncherSetup\LauncherSetup.wixproj", "{E16A4A40-8674-40ED-851F-CB2A2BD754E3}"
+Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LauncherSetupMSI", "LauncherSetup\LauncherSetupMSI.wixproj", "{E16A4A40-8674-40ED-851F-CB2A2BD754E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
