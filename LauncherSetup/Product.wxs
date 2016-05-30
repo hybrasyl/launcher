@@ -425,14 +425,17 @@
 	<Fragment>
     <Directory Id="TARGETDIR" Name="SourceDir">
       <Directory Id="ProgramFilesFolder">
-        <Directory Id="INSTALLFOLDER" Name="LauncherSetup" />
+        <Directory Id="INSTALLFOLDER" Name="Hybrasyl Project">
+          <Directory Id ="PROGRAMFOLDER" Name="Hybrasyl Launcher"/>
+        </Directory>
+        
       </Directory>
       <Directory Id="DesktopFolder" Name="Desktop">
         <Component Id="ApplicationShortcutDesktop" Guid="*">
           <Shortcut Id="ApplicationDesktopShortcut"
               Name="Hybrasyl Launcher"
               Description="version 0.5.0!"
-              Target="[INSTALLFOLDER]Hybrasyl Launcher.exe"
+              Target="[PROGRAMFOLDER]Hybrasyl Launcher.exe"
               WorkingDirectory="TargetDir"/>
           <RemoveFolder Id="DesktopFolder" On="uninstall"/>
           <RegistryValue

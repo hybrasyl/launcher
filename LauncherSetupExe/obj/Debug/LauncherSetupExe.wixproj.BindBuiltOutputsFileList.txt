@@ -1,2 +1,0 @@
-C:\Users\Mike\Source\Repos\launcher\LauncherSetupExe\bin\Debug\LauncherSetupExe.exe
-C:\Users\Mike\Source\Repos\launcher\LauncherSetupExe\bin\Debug\LauncherSetupExe.wixpdb
