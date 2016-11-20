@@ -24,7 +24,7 @@
       <Show Dialog="FinishedForm" OnExit="success" />
     </InstallUISequence>
     <CustomAction Id="VSDCA_FolderForm_AllUsers" Property="FolderForm_AllUsers" Value="ALL" />
-    <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[ProgramFilesFolder][Manufacturer]\[ProductName]" Execute="firstSequence" />
+    <CustomAction Id="DIRCA_TARGETDIR" Property="TARGETDIR" Value="[ProgramFilesFolder]\[Manufacturer]\[ProductName]" Execute="firstSequence" />
     <AdminUISequence>
       <Custom Action="DIRCA_TARGETDIR" Before="CostInitialize"><![CDATA[TARGETDIR = ""]]></Custom>
       <Show Dialog="AdminUserExitForm" OnExit="cancel" />
@@ -435,7 +435,7 @@
           <Shortcut Id="ApplicationDesktopShortcut"
               Name="Hybrasyl Launcher"
               Description="version 0.5.0!"
-              Target="[PROGRAMFOLDER]Hybrasyl Launcher.exe"
+              Target="[PROGRAMFOLDER]\Hybrasyl Launcher.exe"
               WorkingDirectory="TargetDir"/>
           <RemoveFolder Id="DesktopFolder" On="uninstall"/>
           <RegistryValue
@@ -451,7 +451,7 @@
 	</Fragment>
 
 	<Fragment>
-		<ComponentGroup Id="ProductComponents" Directory="INSTALLFOLDER">
+		<ComponentGroup Id="ProductComponents" Directory="PROGRAMFOLDER">
 			<!-- TODO: Remove the comments around this Component element and the ComponentRef below in order to add resources to this installer. -->
 			<Component Id="ProductComponent">
         <File Source="$(var.Launcher.TargetPath)" />
