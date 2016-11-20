@@ -136,7 +136,6 @@ namespace Launcher.ViewModels
                     new KeyValuePair<string, int>("stg.hyb.onl", 2610)
                 },
                 {"localhost", new KeyValuePair<string, int>("127.0.0.1", 2610)},
-                {"commercial", new KeyValuePair<string, int>("da0.kru.com", 2610) }
             };
             LaunchEnabled = true;
             OnPropertyChanged("LaunchEnabled");
