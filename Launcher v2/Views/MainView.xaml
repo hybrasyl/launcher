@@ -24,7 +24,7 @@
                     <Label Content="{Binding ServerStatus}" Foreground="{Binding ServerStatusColor}" HorizontalAlignment="Right"/>
                 </WrapPanel>
             </UniformGrid>
-            <Expander Style="{DynamicResource MainExpander}" Visibility="{Binding NotifyVisibility}">
+            <Expander Style="{DynamicResource MainExpander}" Visibility="Collapsed">
                 <Expander.Header>
                     <TextBlock Text="{Binding NotifyHeader}" Foreground="#FFFFCC66" FontWeight="Bold" FontSize="16"/>
                 </Expander.Header>
