@@ -333,6 +333,40 @@
             </DataTrigger>
         </Style.Triggers>
     </Style>
+    <Style x:Key="HeaderTextStyle" TargetType="TextBlock">
+        <Setter Property="Foreground" Value="WhiteSmoke" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="Padding" Value="1" />
+    </Style>
+    <Style x:Key="LinkTextStyle" TargetType="Hyperlink">
+        <Setter Property="Foreground" Value="{DynamicResource ActiveWindowBorderBrush}" />
+        <Setter Property="Background" Value="Transparent" />
+        <Setter Property="TextBlock.TextDecorations" Value="{x:Null}"/>
+        <Style.Triggers>
+            <Trigger Property="IsMouseOver" Value="True">
+                <Setter Property="Foreground" Value="DarkGray"/>
+            </Trigger>
+        </Style.Triggers>
+        
+        
+    </Style>
+    <Style x:Key="ColorBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource ActiveWindowBorderBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ActiveWindowBorderBrush}"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="Padding" Value="2"/>
+        
+    </Style>
+
+    <Style x:Key="GrayBorderStyle" TargetType="Border">
+        <Setter Property="Background" Value="{DynamicResource ThumbBrush}"/>
+        <Setter Property="BorderThickness" Value="1"/>
+        <Setter Property="BorderBrush" Value="{DynamicResource ThumbBrush}"/>
+        <Setter Property="CornerRadius" Value="2"/>
+        <Setter Property="Padding" Value="2"/>
+
+    </Style>
 
     <Style x:Key="FocusedElementVisualStyle">
         <Setter Property="Control.Template">
@@ -885,7 +919,7 @@
                               UseLayoutRounding="False"
                               Opacity="0"
                               Margin="1,1,0,0"
-                              Fill="{DynamicResource GrayBrush6}" />
+                              Fill="{DynamicResource GrayBrush3}" />
                         <Path x:Name="Blur"
                               Data="F1 M 511.047,352.682L 511.047,342.252L 517.145,347.467L 511.047,352.682 Z "
                               Height="10"
@@ -973,7 +1007,7 @@
                               UseLayoutRounding="False"
                               Opacity="0"
                               Margin="0,1,0,0"
-                              Fill="{DynamicResource GrayBrush6}" />
+                              Fill="{DynamicResource GrayBrush3}" />
                         <Path x:Name="Blur"
                               Data="F1 M 110.692,342.252L 110.692,352.682L 104.594,347.467L 110.692,342.252 Z "
                               Height="10"
@@ -1046,7 +1080,7 @@
                             <Rectangle x:Name="MouseOverRectangle"
                                        StrokeThickness="1"
                                        Opacity="0"
-                                       Fill="{DynamicResource GrayBrush4}" />
+                                       Fill="{DynamicResource GrayBrush3}" />
                             <Rectangle x:Name="PressedRectangle"
                                        StrokeThickness="1"
                                        Opacity="0"
@@ -1155,7 +1189,7 @@
                                 <VisualState x:Name="Pressed">
                                     <Storyboard>
                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)"
-                                                                       Storyboard.TargetName="Pressed">
+                                                                       Storyboard.TargetName="Press">
                                             <EasingDoubleKeyFrame KeyTime="0:0:0.1"
                                                                   Value="1" />
                                         </DoubleAnimationUsingKeyFrames>
@@ -1191,7 +1225,7 @@
                               UseLayoutRounding="False"
                               Opacity="0"
                               Margin="0.5,0,0.5,0"
-                              Fill="{DynamicResource GrayBrush6}" />
+                              Fill="{DynamicResource GrayBrush3}" />
                         <Path x:Name="Blur"
                               Data="F1 M 531.107,321.943L 541.537,321.943L 536.322,328.042L 531.107,321.943 Z "
                               Height="6"
@@ -1280,7 +1314,7 @@
                               UseLayoutRounding="False"
                               Opacity="0"
                               Margin="0.5,0,0.5,0"
-                              Fill="{DynamicResource GrayBrush6}" />
+                              Fill="{DynamicResource GrayBrush3}" />
                         <Path x:Name="Blur"
                               Data="F1 M 541.537,173.589L 531.107,173.589L 536.322,167.49L 541.537,173.589 Z "
                               Height="6"
@@ -1353,7 +1387,7 @@
                             <Rectangle x:Name="MouseOverRectangle"
                                        StrokeThickness="1"
                                        Opacity="0"
-                                       Fill="{DynamicResource GrayBrush4}" />
+                                       Fill="{DynamicResource GrayBrush3}" />
                             <Rectangle x:Name="PressedRectangle"
                                        StrokeThickness="1"
                                        Opacity="0"
@@ -1496,7 +1530,9 @@
                                    Grid.Row="0"
                                    Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
                                    Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   ViewportSize="{TemplateBinding ViewportHeight}" />
+                                   ViewportSize="{TemplateBinding ViewportHeight}"
+                                   Style="{DynamicResource ScrollBarStyle}"
+                                   />
                         <ScrollBar x:Name="PART_HorizontalScrollBar"
                                    AutomationProperties.AutomationId="HorizontalScrollBar"
                                    Cursor="Arrow"
@@ -1507,7 +1543,9 @@
                                    Grid.Row="1"
                                    Visibility="{TemplateBinding ComputedHorizontalScrollBarVisibility}"
                                    Value="{Binding HorizontalOffset, Mode=OneWay, RelativeSource={RelativeSource TemplatedParent}}"
-                                   ViewportSize="{TemplateBinding ViewportWidth}" />
+                                   ViewportSize="{TemplateBinding ViewportWidth}" 
+                                   Style="{DynamicResource ScrollBarStyle}"
+                                   />
                     </Grid>
                 </ControlTemplate>
             </Setter.Value>
