@@ -24,11 +24,17 @@ namespace Launcher.ViewModels
 
 
             var news = GetNews();
-
-            foreach (var item in news)
+            if (news != null)
             {
-                var newsItem = new Views.NewsItem(item.Title, item.Body, item.Author, item.DateCreated);
-                Content.Add(newsItem);
+                foreach (var item in news)
+                {
+                    var newsItem = new Views.NewsItem(item.Title, item.Body, item.Author, item.DateCreated);
+                    Content.Add(newsItem);
+                }
+            }
+            else
+            {
+                Content.Add(new Views.NewsItem("News Temporarily Unavailable", "Please bear with us while we work to restore news functionality", "System", DateTime.Now));
             }
 
             OnPropertyChanged("Content");
@@ -38,13 +44,13 @@ namespace Launcher.ViewModels
 
         private List<Hybrasyl.Common.NewsItem> GetNews()
         {
-            var client = new HttpClient() {BaseAddress = new Uri("http://build.hybrasyl.com"), DefaultRequestHeaders = { Accept = {new MediaTypeWithQualityHeaderValue("application/json")}}};
-            var response = client.GetAsync("/api/news/getnews").Result;
-            if (response.IsSuccessStatusCode)
-            {
-                var newsItems = response.Content.ReadAsAsync<BaseResponse<List<Hybrasyl.Common.NewsItem>>>().Result;
-                return newsItems.Data.ToList();
-            }
+            //var client = new HttpClient() {BaseAddress = new Uri("http://build.hybrasyl.com"), DefaultRequestHeaders = { Accept = {new MediaTypeWithQualityHeaderValue("application/json")}}};
+            //var response = client.GetAsync("/api/news/getnews").Result;
+            //if (response.IsSuccessStatusCode)
+            //{
+            //    var newsItems = response.Content.ReadAsAsync<BaseResponse<List<Hybrasyl.Common.NewsItem>>>().Result;
+            //    return newsItems.Data.ToList();
+            //}
 
             return null;
 
