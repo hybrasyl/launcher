@@ -1,11 +1,9 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25123.0
+# Visual Studio Version 16
+VisualStudioVersion = 16.0.29123.88
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Launcher", "Launcher v2\Launcher.csproj", "{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}"
-EndProject
-Project("{930C7802-8A8C-48F9-8165-68863BCCD9DD}") = "LauncherSetupMSI", "LauncherSetup\LauncherSetupMSI.wixproj", "{E16A4A40-8674-40ED-851F-CB2A2BD754E3}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,16 +27,11 @@ Global
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Release|x64.Build.0 = Release|Any CPU
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Release|x86.ActiveCfg = Release|Any CPU
 		{B74E44EA-E4F0-42D2-BFC9-50F3367939E3}.Release|x86.Build.0 = Release|Any CPU
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Debug|x64.ActiveCfg = Debug|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Debug|x86.ActiveCfg = Debug|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Debug|x86.Build.0 = Debug|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Release|Any CPU.ActiveCfg = Release|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Release|x64.ActiveCfg = Release|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Release|x86.ActiveCfg = Release|x86
-		{E16A4A40-8674-40ED-851F-CB2A2BD754E3}.Release|x86.Build.0 = Release|x86
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {6BBE478A-646D-477E-9352-A74AA93A5B2D}
 	EndGlobalSection
 EndGlobal

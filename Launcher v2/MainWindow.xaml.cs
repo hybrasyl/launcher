@@ -1,10 +1,12 @@
-﻿using Launcher.ViewModels;
+﻿using System.Runtime.CompilerServices;
+using Launcher.ViewModels;
 using Launcher.Views;
 using System.Runtime.InteropServices;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using Squirrel;
 
 namespace Launcher
 {
@@ -20,6 +22,7 @@ namespace Launcher
         public MainWindow()
         {
             
+
             App.Current.Resources["SystemAccentBrush"] = GetChromeColor();
             App.Current.Resources["ActiveWindowBorderBrush"] = GetChromeColor();
             App.Current.Resources["ActiveWindowBorderColor"] = GetChrome();
