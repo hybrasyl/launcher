@@ -134,9 +134,14 @@ namespace Launcher.ViewModels
                 {
                     "Hybrasyl Staging",
                     new KeyValuePair<string, int>("stg.hyb.onl", 2610)
-                },
-                {"localhost", new KeyValuePair<string, int>("127.0.0.1", 2610)},
+                }
+                
             };
+            if (_config.AppSettings.Settings["dev"].Value == "true")
+            {
+                ServerList.Add("localhost", new KeyValuePair<string, int>("127.0.0.1", 2610));
+            }
+
             LaunchEnabled = true;
             OnPropertyChanged("LaunchEnabled");
             OnPropertyChanged("ServerList");

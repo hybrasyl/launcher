@@ -26,5 +26,10 @@ namespace Launcher.Views
             InitializeComponent();
             DataContext = new NewsViewModel();
         }
+
+        private void WebView_Loaded(object sender, RoutedEventArgs e)
+        {
+            webNews.Navigate(new Uri("https://www.hybrasyl.com/launcher"));
+        }
     }
 }
